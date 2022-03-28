@@ -21,22 +21,30 @@ public class SocketClass extends Thread {
     private static final int MESSAGE_SERVER_PORT = 33776;
     private static final int SOCKET_TIMEOUT = 500;         //in milliseconds
     private static final int VERIFY_TRY_COUNT = 4;
-    private static final int CONNECT_TRY_COUNT = 30;
+    private static final int CONNECT_TRY_COUNT = 25;
+    private static final String ALREADY_CONNECTED_MESSAGE = "Already Connected";
+    private static final String CONNECTED_MESSAGE = "Connected";
+    private static final String DISCONNECTED_MESSAGE = "Disconnected";
+    private static final String GAME_INSTRUCTION_MESSAGE = "Open Among Us local games";
+    private static final String THREAD_ALREADY_RUNNING_MESSAGE = "A connection attempt is running... \nTry again in a few seconds";
+    private static final String ERROR_CREATE_SOCKET_MESSAGE = "Error: Could not create the socket";
+    private static final String ERROR_TIMEOUT_SOCKET_MESSAGE = "Error: Could not set the timeout for socket";
+    private static final String VERIFYING_CONNECTION_MESSAGE = "Verifying connection...";
+    private static final String CONNECTING_MESSAGE = "Connecting...";
+    private static final String ERROR_RESOLVE_ADDRESS = "Error: Could not resolve the address";
+    private static final String ERROR_RECEIVE_PACKETS = "Error: Could not receive packets";
+    private static final String ERROR_SEND_PACKETS = "Error: Could not send packets";
+    private static final String ERROR_TIMEOUT = "The server did not respond";
+
+
     private static volatile int thread_count = 0;
 
 
     private String ipAddress = null;
     private DatagramSocket socket = null;
-    private AppCompatActivity activityInstance = null;
-
-    private TextView statusView = null;
 
     private boolean justVerify = false;
 
-    public SocketClass(AppCompatActivity mainActivityInstance, TextView statusView){
-        activityInstance = mainActivityInstance;
-        this.statusView = statusView;
-    }
 
     public SocketClass setIpAddress(String ipAddress){
         this.ipAddress = ipAddress;
@@ -50,15 +58,6 @@ public class SocketClass extends Thread {
             justVerify = true;
 
         return this;
-    }
-
-    private void setMessage(String message){
-        activityInstance.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                statusView.setText(message);
-            }
-        });
     }
 
 
